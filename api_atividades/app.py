@@ -1,11 +1,36 @@
 from flask import Flask, request
 from flask_restful import Api, Resource
-from models import Pessoas, Atividades
+from models import Pessoas, Atividades, Usuarios
+from flask_httpauth import HTTPBasicAuth
+
+auth = HTTPBasicAuth()   ## Obrigatorio para a autenticacao
 
 app = Flask(__name__)
 api = Api(app)
-# Esta classe consulta, altera e deleta um desenvolvedor
+
+'''
+USUARIOS = {
+    'Paulo': '1234',
+    'Bacalhau': '5555'
+}
+@auth.verify_password   # Indica que a função a seguir é a verificadora da senha
+def verificacao(login,senha):
+    # print("Validando usuário", USUARIOS.get(login) == senha)
+    if not(login,senha):
+        return False
+    else:
+        return USUARIOS.get(login) == senha
+'''
+@auth.verify_password   # Indica que a função a seguir é a verificadora da senha
+def verificacao(login,senha):
+    if not(login,senha):
+        return False
+    else:
+        return Usuarios.query.filter_by(login=login,senha=senha).first()
+
+# Esta classe consulta, altera e deleta uma pessoa
 class Pessoa(Resource):
+    @auth.login_required             ## Indica que este método obriga que o usuário esteja logado.
     def get(self, nome):
         pessoa = Pessoas.query.filter_by(nome = nome).first()
         try:
