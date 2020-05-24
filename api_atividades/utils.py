@@ -8,12 +8,14 @@ def insere_pessoas():
 def consulta_pessoas():
     pessoa = Pessoas.query.all() #filter_by(nome="Paulo")
     print(pessoa)
-    pessoa = Pessoas.query.filter_by(nome="Paulo").first()
+    pessoa = Pessoas.query.filter_by(nome="Coucello").first()
     print(pessoa.idade)
 
 def altera_pessoa():
-    pessoa = Pessoas.query.filter_by(nome="Paulo").first()
-    pessoa.idade = 30
+    pessoa = Pessoas.query.filter_by(nome="paulo bacalhau").first()
+    pessoa.idade = 58
+    pessoa.nome = 'Coucello'
+    pessoa.save()
 
 def exclui_pessoa():
     pessoa = Pessoas.query.filter_by(nome="Fonseca").first()
@@ -22,6 +24,6 @@ def exclui_pessoa():
 if __name__ == "__main__":
     #insere_pessoas()
     #altera_pessoa()
-    consulta_pessoas()
-    exclui_pessoa()
+    #consulta_pessoas()
+    #exclui_pessoa()
     consulta_pessoas()
